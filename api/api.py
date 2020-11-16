@@ -32,7 +32,7 @@ def getNovelCategory():
 def getNovelList(type, page, pageSize):
   start = (page - 1) * pageSize
   end = page * pageSize
-  sql = ''' SELECT type, name, author, intro, id  FROM novel where type_id=\'%s\' and spider=1 limit %s, %s''' % (int(type), start, end )
+  sql = ''' SELECT type, name, author, intro, id, cover  FROM novel where type_id=\'%s\' and spider=1 ''' % (int(type))
   cursor.execute(sql)
   novelList = cursor.fetchall()
   res = {
@@ -41,8 +41,9 @@ def getNovelList(type, page, pageSize):
     'pageSize': pageSize,
     'list': []
   }
-  for item in novelList:
+  for item in novelList[start:end]:
     res['list'].append(formatNovel(item))
+  print(len(novelList))
   return res
 
 # 小说排行榜
@@ -60,7 +61,7 @@ def getNovelRank():
 
 # 小说详情
 def getNovelInfo(id):
-  sql = ''' SELECT type, name, author, intro, id, cover  FROM novel where id=\'%s\' ''' % id
+  sql = ''' SELECT type, name, author, intro, id, cover, update FROM novel where id=\'%s\' ''' % id
   cursor.execute(sql)
   info = cursor.fetchone()
   print(info)
