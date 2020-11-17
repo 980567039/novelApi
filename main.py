@@ -41,8 +41,8 @@ def read_NovelInfo(id: int):
 
 # 获取小说章节
 @app.get("/getNovelChapter")
-def read_NovelChapter(id: int):
-  data = getNovelChapter(id)
+def read_NovelChapter(id: int, page: int, pageSize: int):
+  data = getNovelChapter(id, page, pageSize)
   return data
 
 # 获取章节内容

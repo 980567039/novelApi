@@ -1,4 +1,5 @@
 from api.database import cursor
+import time
 
 def formatNovel(item):
   data = {
@@ -43,7 +44,6 @@ def getNovelList(type, page, pageSize):
   }
   for item in novelList[start:end]:
     res['list'].append(formatNovel(item))
-  print(len(novelList))
   return res
 
 # 小说排行榜
@@ -61,18 +61,20 @@ def getNovelRank():
 
 # 小说详情
 def getNovelInfo(id):
-  sql = ''' SELECT type, name, author, intro, id, cover, update FROM novel where id=\'%s\' ''' % id
+  sql = ''' SELECT type, name, author, intro, id, cover, time FROM novel where id=\'%s\' ''' % id
   cursor.execute(sql)
   info = cursor.fetchone()
-  print(info)
+  data = formatNovel(info)
+  data['timeago'] = info[6].strftime('%Y-%m-%d')
   res = {
     'code': 200,
-    'data': formatNovel(info)
+    'data': data
   }
   return res
 
 # 小说章节
 def getNovelChapter(id, page=1, pageSize=50):
+  print(pageSize)
   start = (page - 1) * pageSize
   end = page * pageSize
   sql = ''' SELECT id, title, ctime  FROM chapter where novel_id=\'%s\' limit %s, %s ''' % (id, start, end)
