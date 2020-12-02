@@ -84,11 +84,12 @@ def getNovelChapter(id, page=1, pageSize=50):
     'code': 200,
     'data': []
   }
-  for chapter in chapters:
+  for index, chapter in enumerate(chapters):
     res['data'].append({
       'id': chapter[0],
       'title': chapter[1],
       'ctime': chapter[2],
+      'index': index
     })
   return res
 
