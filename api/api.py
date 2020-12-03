@@ -106,3 +106,17 @@ def getChapterContent(chapterId):
     }
   }
   return res
+
+# 搜索小说
+def searchNovel(name):
+  sql = "select * from novel where name like '%s%s'; " % ('%', name)
+  cursor.execute(sql)
+  novelList = cursor.fetchall()
+  res = {
+    'count': len(novelList),
+    'list': []
+  }
+  for item in novelList:
+    res['list'].append(formatNovel(item))
+  print(res)
+  return res

@@ -50,3 +50,9 @@ def read_NovelChapter(id: int, page: int, pageSize: int):
 def read_ChapterContent(chapterId: int):
   data = getChapterContent(chapterId)
   return data
+
+# 搜索小说
+@app.get("/searchNovel")
+def get_Novel(name: str):
+  data = searchNovel(name)
+  return data
